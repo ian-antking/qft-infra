@@ -1,0 +1,27 @@
+service: qft-infra
+
+frameworkVersion: "3"
+
+custom:
+  appName: qft-infra-${opt:stage, 'dev'}
+
+package:
+  individually: true
+
+provider:
+  name: "aws"
+  runtime: nodejs12.x
+  region: eu-west-2
+  httpApi:
+    cors: true
+
+functions:
+  sendMessage:
+    name: ${self:custom.appName}-send-message
+    handler: services/sendMessage/index.handler
+    events:
+      - httpApi:
+          path: /message
+          method: POST
+    environment:
+      SLACK_MESSAGE_ENDPOINT: ${ssm:/qft-infra/${opt:stage, 'dev'}/slack-message-endpoint}
