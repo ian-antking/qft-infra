@@ -14,7 +14,8 @@ jobs:
           node-version: 16.13
 
       - name: Install Dependencies
-        run: npm i
+        run: npm ci
+        working-directory: services/sendMessage
       - name: Install Serverless
         run: npm i -g serverless@3.0.0
       - name: Configure Serverless
