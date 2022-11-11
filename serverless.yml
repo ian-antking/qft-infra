@@ -12,8 +12,25 @@ provider:
   name: "aws"
   runtime: nodejs12.x
   region: eu-west-2
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - sns:Publish
+          Resource:
+            Ref: messageNotificationTopic
+
   httpApi:
     cors: true
+
+resources:
+  Resources:
+    messageNotificationTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: ${self:custom.appName}-send-message
+        TopicName: ${self:custom.appName}-send-message
 
 functions:
   sendMessage:
