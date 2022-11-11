@@ -31,6 +31,13 @@ resources:
       Properties:
         DisplayName: ${self:custom.appName}-send-message
         TopicName: ${self:custom.appName}-send-message
+    adminTopicSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        TopicArn:
+          Ref: messageNotificationTopic
+        Protocol: "EMAIL"
+        Endpoint: ${ssm:/qft-infra/${opt:stage, 'dev'}/default-email-subscription}
 
 functions:
   sendMessage:
@@ -42,3 +49,5 @@ functions:
           method: POST
     environment:
       SLACK_MESSAGE_ENDPOINT: ${ssm:/qft-infra/${opt:stage, 'dev'}/slack-message-endpoint}
+      SNS_TOPIC:
+        Ref: messageNotificationTopic
