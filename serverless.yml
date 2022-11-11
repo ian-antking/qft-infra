@@ -31,7 +31,7 @@ resources:
       Properties:
         DisplayName: ${self:custom.appName}-send-message
         TopicName: ${self:custom.appName}-send-message
-    adminTopicSubscription:
+    adminMessageTopicSubscription:
       Type: AWS::SNS::Subscription
       Properties:
         TopicArn:
